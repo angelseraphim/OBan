@@ -11,7 +11,7 @@ namespace OBan
     {
         public override string Prefix => "OBan";
         public override string Name => "OBan";
-        public override string Author => "angelseraphim.";
+        public override string Author => "angelseraphim. & Rysik5318";
 
         public static Plugin plugin;
         public static Harmony Harmony;
