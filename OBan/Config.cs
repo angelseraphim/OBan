@@ -5,7 +5,7 @@ namespace OBan
 {
     public class Config : IConfig
     {
-        public bool IsEnabled { get; set; } = false;
+        public bool IsEnabled { get; set; } = true;
         public bool Debug { get; set; } = false;
         [Description("Ban SteamId if ip was banned")]
         public string DataBasePath { get; set; } = "%config%/%database%";
