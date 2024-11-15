@@ -35,7 +35,11 @@ namespace OBan.Patch
 
             if (Extensions.TryGetValue(target, out PlayerInfo info))
             {
-                string[] Ips = info.IPs.Skip(info.IPs.Count - Plugin.plugin.Config.BanLastIPs).ToArray();
+                string[] Ips;
+                if (info.IPs.Count > Plugin.plugin.Config.BanLastIPs)
+                    Ips = info.IPs.Skip(info.IPs.Count - Plugin.plugin.Config.BanLastIPs).ToArray();
+                else
+                    Ips = info.IPs.ToArray();
 
                 foreach (string ip in Ips)
                 {
