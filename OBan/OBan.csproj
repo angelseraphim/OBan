@@ -101,6 +101,7 @@
     <Compile Include="Config.cs" />
     <Compile Include="DataBase\Extensions.cs" />
     <Compile Include="DataBase\Structure.cs" />
+    <Compile Include="EventHandlers\PlayerEvents.cs" />
     <Compile Include="GetDirectory.cs" />
     <Compile Include="Patch\OBanCommandPatch.cs" />
     <Compile Include="Plugin.cs" />

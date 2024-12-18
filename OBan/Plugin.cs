@@ -1,12 +1,11 @@
-﻿using Exiled.API.Features;
-using Exiled.Events.EventArgs.Player;
-using HarmonyLib;
-using LiteDB;
-using static OBan.DataBase.Extensions;
-using static OBan.DataBase.Structure;
-
-namespace OBan
+﻿namespace OBan
 {
+    using Exiled.API.Features;
+    using HarmonyLib;
+
+    using LiteDB;
+    using OBan.EventHandlers;
+
     public class Plugin : Plugin<Config>
     {
         public override string Prefix => "OBan";
@@ -16,7 +15,9 @@ namespace OBan
         public static Plugin plugin;
         public static Harmony Harmony;
         public static LiteDatabase Database;
-        public static GetDirectory getDirectory;
+
+        internal static GetDirectory getDirectory;
+        internal static PlayerEvents playerEvents;
 
         public override void OnEnabled()
         {
@@ -24,8 +25,9 @@ namespace OBan
             plugin = this;
             getDirectory = new GetDirectory();
             Database = new LiteDatabase(Config.DataBasePath.Replace("%config%", getDirectory.GetParentDirectory()).Replace("%database%", $"OBan{Server.Port}.db"));
-            
-            Exiled.Events.Handlers.Player.Verified += OnVerified;
+
+            playerEvents = new PlayerEvents(this);
+            playerEvents.Register();
 
             Harmony.PatchAll();
             base.OnEnabled();
@@ -37,32 +39,11 @@ namespace OBan
             Database.Dispose();
             Database = null;
 
-            Exiled.Events.Handlers.Player.Verified -= OnVerified;
+            playerEvents.Unregister();
+            playerEvents = null;
 
             Harmony.UnpatchAll();
             base.OnDisabled();
-        }
-
-        public void OnVerified(VerifiedEventArgs ev)
-        {
-            if (ev.Player == null || string.IsNullOrEmpty(ev.Player.UserId))
-                return;
-
-            if (!TryGetValue(ev.Player.UserId, out PlayerInfo info))
-            {
-                InsertPlayer(ev.Player.UserId, ev.Player.Nickname, ev.Player.IPAddress);
-                return;
-            }
-
-            info.LastIp = ev.Player.IPAddress;
-
-            if (!info.Nicknames.Contains(ev.Player.Nickname))
-                info.Nicknames.Add(ev.Player.Nickname);
-
-            if (!info.IPs.Contains(ev.Player.IPAddress))
-                info.IPs.Add(ev.Player.IPAddress);
-            
-            PlayerInfoCollection.Update(info);
         }
     }
 }

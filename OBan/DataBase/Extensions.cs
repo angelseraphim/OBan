@@ -1,10 +1,13 @@
-﻿using Exiled.API.Features;
-using LiteDB;
-using System.Collections.Generic;
-using static OBan.DataBase.Structure;
-
-namespace OBan.DataBase
+﻿namespace OBan.DataBase
 {
+    using System.Collections.Generic;
+
+    using Exiled.API.Features;
+
+    using LiteDB;
+
+    using static OBan.DataBase.Structure;
+
     public static class Extensions
     {
         public static ILiteCollection<PlayerInfo> PlayerInfoCollection => Plugin.Database.GetCollection<PlayerInfo>($"OBan{Server.Port}");

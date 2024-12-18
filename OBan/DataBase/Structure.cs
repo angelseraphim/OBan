@@ -1,9 +1,10 @@
-﻿using LiteDB;
-using System;
-using System.Collections.Generic;
-
-namespace OBan.DataBase
+﻿namespace OBan.DataBase
 {
+    using System;
+    using System.Collections.Generic;
+
+    using LiteDB;
+
     public class Structure
     {
         [Serializable]

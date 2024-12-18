@@ -1,9 +1,10 @@
-﻿using System;
-using System.IO;
-
-namespace OBan
+﻿namespace OBan
 {
-    public class GetDirectory
+    using System;
+
+    using System.IO;
+
+    internal class GetDirectory
     {
         internal string GetParentDirectory()
         {
