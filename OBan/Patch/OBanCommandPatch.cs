@@ -50,18 +50,18 @@
 
             if (Extensions.TryGetValue(target, out PlayerInfo info))
             {
-                string[] Ips;
+                List<string> Ips = new List<string>();
                 if (info.IPs.Count > Plugin.plugin.Config.BanLastIPs)
-                    Ips = info.IPs.Skip(info.IPs.Count - Plugin.plugin.Config.BanLastIPs).ToArray();
+                    Ips = info.IPs.Skip(info.IPs.Count - Plugin.plugin.Config.BanLastIPs).ToList();
                 else
-                    Ips = info.IPs.ToArray();
+                    Ips = info.IPs.ToList();
 
                 foreach (string ip in Ips)
                 {
                     BanPlayer(info.Nicknames.LastOrDefault(), ip, time, reason, admin);
                 }
             }
-            else if (Extensions.TryGetByValue(target, out info))
+            else if (Extensions.TryGetByValue(target, out info) && Plugin.plugin.Config.BanId)
             {
                 BanPlayer(info.Nicknames.LastOrDefault(), info.UserId, time, reason, admin);
             }
